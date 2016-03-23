@@ -5,7 +5,9 @@ RUN apt-get update && apt-get install -y \
     gcc \
     automake \
     autoconf \
+    python \
     && rm -rf /var/lib/apt/lists/*
 RUN mkdir /code && cd /code && git clone  https://github.com/armon/statsite.git
-RUN cd /code/statsite && ./bootstrap.sh && ./configure && make && cp ./src/statsite /usr/bin/statsite
-ENTRYPOINT [ "/usr/bin/statsite" ]
+WORKDIR [ "/code/statsite" ]
+RUN cd /code/statsite && ./bootstrap.sh && ./configure && make && mv ./src/statsite /code/statsite/statsite
+ENTRYPOINT [ "/code/statsite/statsite" ]
