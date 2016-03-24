@@ -1,6 +1,10 @@
 docker-statsite
 ================================
+[![Image Layers](https://badge.imagelayers.io/nyxcharon/docker-statsite:latest.svg)](https://imagelayers.io/?images=nyxcharon/docker-statsite:latest)
+[![Docker Registry](https://img.shields.io/docker/pulls/nyxcharon/docker-statsite.svg)](https://registry.hub.docker.com/u/nyxcharon/docker-statsite)
+
 Docker container for [Statsite](https://github.com/armon/statsite)
+
 
 Configuration
 ================================
