@@ -1,0 +1,8 @@
+#! /bin/bash
+# Sink to send metrics to graphite and influxdb
+while read line; do
+  echo `date` "Metric recieved: " $line
+  echo $line | python /code/statsite/sinks/influxdb.py /configs/influxdb.ini INFO
+  echo "INFO: Outputting metric to graphite"
+  echo $line | python /code/statsite/sinks/graphite.py $GRAPHITE_HOST $GRAPHITE_PORT
+done < /dev/stdin

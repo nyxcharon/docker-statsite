@@ -1,0 +1,41 @@
+#! /bin/bash
+
+# Setup the influxdb config file
+INFLUX_DB_CONFIG="/configs/influxdb.ini"
+
+if [ -n "$INFLUXDB_HOST" ]; then
+  sed -i s/INFLUXDB_HOST/"$INFLUXDB_HOST"/g "$INFLUX_DB_CONFIG"
+else
+  sed -i s/INFLUXDB_HOST/localhost/g "$INFLUX_DB_CONFIG"
+fi
+
+if [ -n "$INFLUXDB_PORT" ]; then
+  sed -i s/INFLUXDB_PORT/"$INFLUXDB_PORT"/g "$INFLUX_DB_CONFIG"
+else
+  sed -i s/INFLUXDB_PORT/8086/g "$INFLUX_DB_CONFIG"
+fi
+
+if [ -n "$INFLUXDB_DB" ]; then
+  sed -i s/INFLUXDB_DB/"$INFLUXDB_DB"/g "$INFLUX_DB_CONFIG"
+else
+  sed -i s/INFLUXDB_DB/statsite/g "$INFLUX_DB_CONFIG"
+fi
+
+#Setup the statsite config
+STATSITE_CONFIG="/configs/statsite.conf"
+
+if [ -n "$STREAM_CMD" ]; then
+  sed -i s:STREAM_CMD:"$STREAM_CMD":g "$STATSITE_CONFIG"
+else
+  echo "STREAM_CMD Must be set, exiting"
+  exit 1
+fi
+
+if [ -n "$STATSITE_PORT" ]; then
+  sed -i s/STATSITE_PORT/"$STATSITE_PORT"/g "$STATSITE_CONFIG"
+else
+  sed -i s/STATSITE_PORT/8125/g "$STATSITE_CONFIG"
+fi
+
+#Start statsite
+/code/statsite/statsite -f /configs/statsite.conf 
